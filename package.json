@@ -1,0 +1,16 @@
+{
+  "name": "ts-clean-arch-homework",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --runInBand",
+    "start": "npm run build && node dist/presentation/index.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-jest": "^29.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0"
+  }
+}
