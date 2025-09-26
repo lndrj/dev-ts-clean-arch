@@ -4,6 +4,7 @@ export class ToggleTaskCompletion {
   constructor(private repo: TaskRepository) {}
 
   async execute(id: string): Promise<boolean> {
+    if (!id.trim()) throw new Error("ID cannot be empty");
     const task = await this.repo.findById(id);
     if (!task) throw new Error("Task not found");
     task.completed = !task.completed;

@@ -6,7 +6,7 @@ export class ListAllTasks {
 
   async execute(): Promise<Task[]> {
     const tasks = await this.repo.findAll();
-    if (tasks.length === 0) throw new Error("No tasks found");
+    if (tasks.length === 0) return [];
     return tasks;
   }
 }

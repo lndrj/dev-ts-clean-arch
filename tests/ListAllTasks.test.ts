@@ -17,8 +17,9 @@ test("list all tasks", async () => {
   expect(tasks[2].title).toBe("Third Sample Task");
 });
 
-test("throws when no tasks", async () => {
+test("empty array when no tasks", async () => {
   const repo = new InMemoryTaskRepository();
   const listAllTasks = new ListAllTasks(repo);
-  await expect(listAllTasks.execute()).rejects.toThrow("No tasks found");
+  const tasks = await listAllTasks.execute();
+  expect(tasks).toEqual([]);
 });

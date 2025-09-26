@@ -15,16 +15,26 @@ test("updates a task with valid title", async () => {
   expect(task.completed).toBe(false);
 });
 
+test("throws on empty id", async () => {
+  const repo = new InMemoryTaskRepository();
+  const usecaseUpdate = new UpdateTaskTitle(repo);
+  await expect(
+    usecaseUpdate.execute("   ", "This title won't be set")
+  ).rejects.toThrow("ID cannot be empty");
+});
+
 test("throws on empty title", async () => {
   const repo = new InMemoryTaskRepository();
   const usecaseUpdate = new UpdateTaskTitle(repo);
-  const task = usecaseUpdate.execute("1", "   ");
-  await expect(task).rejects.toThrow();
+  await expect(usecaseUpdate.execute("1", "   ")).rejects.toThrow(
+    "Title cannot be empty"
+  );
 });
 
 test("throws on non-existing task", async () => {
   const repo = new InMemoryTaskRepository();
   const useCaseUpdate = new UpdateTaskTitle(repo);
-  const task = useCaseUpdate.execute(" ", "This task does not exist");
-  await expect(task).rejects.toThrow("Task not found");
+  await expect(
+    useCaseUpdate.execute("fakeId", "This task does not exist")
+  ).rejects.toThrow("Task not found");
 });

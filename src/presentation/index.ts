@@ -3,6 +3,7 @@ import { CreateTask } from "../core/usecases/CreateTask";
 import { UpdateTaskTitle } from "../core/usecases/UpdateTaskTitle";
 import { ToggleTaskCompletion } from "../core/usecases/ToggleTaskCompletion";
 import { ListAllTasks } from "../core/usecases/ListAllTasks";
+import { DeleteTask } from "../core/usecases/DeleteTask";
 
 async function main() {
   const repo = new InMemoryTaskRepository();
@@ -27,6 +28,11 @@ async function main() {
   const listAllTasks = new ListAllTasks(repo);
   const tasks = await listAllTasks.execute();
   console.log(tasks);
+
+  const deleteTask = new DeleteTask(repo);
+  await deleteTask.execute("2");
+  const tasksAfterDeletion = await listAllTasks.execute();
+  console.log(tasksAfterDeletion);
 }
 
 main();

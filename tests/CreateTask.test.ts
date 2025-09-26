@@ -1,16 +1,26 @@
-import { InMemoryTaskRepository } from '../src/infrastructure/InMemoryTaskRepository';
-import { CreateTask } from '../src/core/usecases/CreateTask';
+import { InMemoryTaskRepository } from "../src/infrastructure/InMemoryTaskRepository";
+import { CreateTask } from "../src/core/usecases/CreateTask";
 
-test('creates a task with valid title', async () => {
+test("creates a task with valid title", async () => {
   const repo = new InMemoryTaskRepository();
   const usecase = new CreateTask(repo);
-  const task = await usecase.execute('1', 'Test Task');
-  expect(task.title).toBe('Test Task');
+  const task = await usecase.execute("1", "Test Task");
+  expect(task.title).toBe("Test Task");
   expect(task.completed).toBe(false);
 });
 
-test('throws on empty title', async () => {
+test("throws on empty id", async () => {
   const repo = new InMemoryTaskRepository();
   const usecase = new CreateTask(repo);
-  await expect(usecase.execute('1', '   ')).rejects.toThrow();
+  await expect(usecase.execute("   ", "Test Task")).rejects.toThrow(
+    "ID cannot be empty"
+  );
+});
+
+test("throws on empty title", async () => {
+  const repo = new InMemoryTaskRepository();
+  const usecase = new CreateTask(repo);
+  await expect(usecase.execute("1", "   ")).rejects.toThrow(
+    "Title cannot be empty"
+  );
 });

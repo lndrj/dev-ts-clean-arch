@@ -15,8 +15,18 @@ test("toggles task completion", async () => {
   expect(isCompletedAgain).toBe(false);
 });
 
+test("throws on empty id", async () => {
+  const repo = new InMemoryTaskRepository();
+  const usecaseToggle = new ToggleTaskCompletion(repo);
+  await expect(usecaseToggle.execute("   ")).rejects.toThrow(
+    "ID cannot be empty"
+  );
+});
+
 test("throws error if task not found", async () => {
   const repo = new InMemoryTaskRepository();
   const usecaseToggle = new ToggleTaskCompletion(repo);
-  await expect(usecaseToggle.execute("")).rejects.toThrow("Task not found");
+  await expect(usecaseToggle.execute("fakeId")).rejects.toThrow(
+    "Task not found"
+  );
 });
